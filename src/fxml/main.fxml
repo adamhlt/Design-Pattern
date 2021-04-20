@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="533.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane layoutX="103.0" layoutY="14.0" prefHeight="125.0" prefWidth="330.0" style="-fx-border-color: black; -fx-border-radius: 5;">
+         <children>
+            <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="152.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../img/upload.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="87.0" layoutY="44.0" text="Déposez votre fichier ici">
+               <font>
+                  <Font name="Open Sans Regular" size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Pane>
+      <Separator layoutX="67.0" layoutY="266.0" prefHeight="2.0" prefWidth="401.0" />
+      <VBox layoutX="67.0" layoutY="290.0" prefHeight="100.0" prefWidth="401.0">
+         <children>
+            <HBox prefHeight="31.0" prefWidth="100.0">
+               <children>
+                  <Label text="Libellé :">
+                     <font>
+                        <Font name="Open Sans Regular" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField prefHeight="25.0" prefWidth="320.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="Open Sans Regular" size="12.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="31.0" prefWidth="100.0">
+               <children>
+                  <Label text="Heure de début :">
+                     <font>
+                        <Font name="Open Sans Regular" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField prefHeight="25.0" prefWidth="260.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox prefHeight="31.0" prefWidth="100.0">
+               <children>
+                  <Label text="Heure Fin :">
+                     <font>
+                        <Font name="Open Sans Regular" size="14.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets top="3.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField prefHeight="25.0" prefWidth="299.0">
+                     <HBox.margin>
+                        <Insets left="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <Separator layoutX="66.0" layoutY="405.0" prefHeight="2.0" prefWidth="401.0" />
+      <Label layoutX="102.0" layoutY="429.0" text="Trier la sortie :">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="306.0" layoutY="429.0" text="Générer, en sortie :">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <RadioButton layoutX="105.0" layoutY="462.0" mnemonicParsing="false" selected="true" text="par ID">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+         <toggleGroup>
+            <ToggleGroup fx:id="sort" />
+         </toggleGroup>
+      </RadioButton>
+      <RadioButton layoutX="105.0" layoutY="490.0" mnemonicParsing="false" text="par Nom" toggleGroup="$sort">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
+      <CheckBox layoutX="333.0" layoutY="454.0" mnemonicParsing="false" text="sans Nom">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </CheckBox>
+      <CheckBox layoutX="333.0" layoutY="482.0" mnemonicParsing="false" text="sans ID">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </CheckBox>
+      <CheckBox layoutX="333.0" layoutY="511.0" mnemonicParsing="false" text="sans Planning">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </CheckBox>
+      <Separator layoutX="67.0" layoutY="566.0" prefHeight="2.0" prefWidth="401.0" />
+      <Button layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
+      <Label layoutX="172.0" layoutY="199.0" text="Veuillez charger un fichier !">
+         <font>
+            <Font name="Open Sans Regular" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="168.0" text="Fichier :" visible="false">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="188.0" text="Date :" visible="false">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="209.0" text="Heure Min :" visible="false">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="65.0" layoutY="229.0" text="Heure Max :" visible="false">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+   </children>
+</Pane>
