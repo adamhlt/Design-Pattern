@@ -18,7 +18,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="631.0" prefWidth="533.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Pane layoutX="103.0" layoutY="14.0" prefHeight="125.0" prefWidth="330.0" style="-fx-border-color: black; -fx-border-radius: 5;">
+      <Pane id="uploadPane" layoutX="103.0" layoutY="14.0" prefHeight="125.0" prefWidth="330.0" style="-fx-border-color: black; -fx-border-radius: 5;">
          <children>
             <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="152.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -48,7 +48,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="320.0">
+                  <TextField id="libelleText" prefHeight="25.0" prefWidth="320.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -68,7 +68,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="260.0">
+                  <TextField id="startText" prefHeight="25.0" prefWidth="260.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -85,7 +85,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField prefHeight="25.0" prefWidth="299.0">
+                  <TextField id="endText" prefHeight="25.0" prefWidth="299.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -105,7 +105,7 @@
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <RadioButton layoutX="105.0" layoutY="462.0" mnemonicParsing="false" selected="true" text="par ID">
+      <RadioButton id="idRadio" layoutX="105.0" layoutY="462.0" mnemonicParsing="false" selected="true" text="par ID">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
@@ -113,49 +113,49 @@
             <ToggleGroup fx:id="sort" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton layoutX="105.0" layoutY="490.0" mnemonicParsing="false" text="par Nom" toggleGroup="$sort">
+      <RadioButton id="nameRadio" layoutX="105.0" layoutY="490.0" mnemonicParsing="false" text="par Nom" toggleGroup="$sort">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </RadioButton>
-      <CheckBox layoutX="333.0" layoutY="454.0" mnemonicParsing="false" text="sans Nom">
+      <CheckBox id="nameCheck" layoutX="333.0" layoutY="454.0" mnemonicParsing="false" text="sans Nom">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="333.0" layoutY="482.0" mnemonicParsing="false" text="sans ID">
+      <CheckBox id="idCheck" layoutX="333.0" layoutY="482.0" mnemonicParsing="false" text="sans ID">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox layoutX="333.0" layoutY="511.0" mnemonicParsing="false" text="sans Planning">
+      <CheckBox id="planningCheck" layoutX="333.0" layoutY="511.0" mnemonicParsing="false" text="sans Planning">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
       <Separator layoutX="67.0" layoutY="566.0" prefHeight="2.0" prefWidth="401.0" />
-      <Button layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
-      <Label layoutX="172.0" layoutY="199.0" text="Veuillez charger un fichier !">
+      <Button id="generateButton" layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
+      <Label id="loadingLabel" layoutX="172.0" layoutY="199.0" text="Veuillez charger un fichier !">
          <font>
             <Font name="Open Sans Regular" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="65.0" layoutY="168.0" text="Fichier :" visible="false">
+      <Label id="nameFileLabel" layoutX="65.0" layoutY="168.0" text="Fichier :" visible="false">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="65.0" layoutY="188.0" text="Date :" visible="false">
+      <Label id="dateFileLabel" layoutX="65.0" layoutY="188.0" text="Date :" visible="false">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="65.0" layoutY="209.0" text="Heure Min :" visible="false">
+      <Label id="minFileLabel" layoutX="65.0" layoutY="209.0" text="Heure Min :" visible="false">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="65.0" layoutY="229.0" text="Heure Max :" visible="false">
+      <Label id="maxFileLabel" layoutX="65.0" layoutY="229.0" text="Heure Max :" visible="false">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
