@@ -2,11 +2,12 @@ package controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Arrays;
 
-public class StudentIDServer {
+public class StudentIDServer
+{
 
-    public static String getId(String name) {
+    public static String getId(String name)
+    {
 
         String id = "XXXXXXXX";
         MessageDigest md = null;
@@ -23,7 +24,9 @@ public class StudentIDServer {
             /*digest.length*/
             id = sb.toString();
 
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e)
+        {
             e.printStackTrace();
         }
 
