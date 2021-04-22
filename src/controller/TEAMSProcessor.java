@@ -10,9 +10,9 @@ import model.People;
 public class TEAMSProcessor {
 
     private Collection<People> _allpeople = null;
-    private String _fileName;
-    private String _startTime;
-    private String _endTime;
+    private final String _fileName;
+    private final String _startTime;
+    private final String _endTime;
 
     public TEAMSProcessor(File _file, String _start, String _stop) {
         /*
