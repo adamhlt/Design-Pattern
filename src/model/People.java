@@ -12,6 +12,15 @@ public class People implements Comparable<People> {
 
     private final String _name;
     private final String _id;
+
+    public String get_start() {
+        return _start;
+    }
+
+    public String get_stop() {
+        return _stop;
+    }
+
     private String _start;
     private String _stop;
     private LinkedList<TEAMSPeriod> _periodList;

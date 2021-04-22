@@ -1,20 +1,26 @@
 package controller;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import model.People;
 
 import java.io.File;
+import java.util.Collection;
 
 public class Controller
 {
-    private final Pane _uploadPane;
+    private Pane _uploadPane;
     private final Label _loadingLabel;
     private final Label _nameFileLabel;
-    private final Label _dateFileLabel;
+    private Label _dateFileLabel;
     private final Label _minFileLabel;
     private final Label _maxFileLabel;
     private final TextField _libelleText;
@@ -47,78 +53,87 @@ public class Controller
         this._idCheck = (CheckBox) root.lookup("#idCheck");
         this._planningCheck = (CheckBox) root.lookup("#planningCheck");
         this._generateButton = (Button) root.lookup("#generateButton");
-        init();
-    }
 
-    private void init()
-    {
         this._uploadPane.setOnMouseEntered(e -> _uploadPane.setStyle(HOVERED_BUTTON_STYLE));
         this._uploadPane.setOnMouseExited(e -> _uploadPane.setStyle(IDLE_BUTTON_STYLE));
-
-        this._uploadPane.setOnDragOver(dragEvent -> {
-            if (dragEvent.getGestureSource() != this._uploadPane && dragEvent.getDragboard().hasFiles()) {
-                dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
-            dragEvent.consume();
-        });
-
-        this._uploadPane.setOnDragDropped(dragEvent -> {
-            Dragboard db = dragEvent.getDragboard();
-            boolean success = false;
-            if (db.hasFiles()) {
-                success = true;
-                if (db.getFiles().get(0) != null)
-                    loadingFile(db.getFiles().get(0));
-            }
-            dragEvent.setDropCompleted(success);
-            dragEvent.consume();
-        });
-
-        this._uploadPane.setOnMouseClicked(mouseEvent -> {
-            upload();
-        });
-
-        this._generateButton.setOnAction(actionEvent -> {
-            generate();
-        });
-
+        this._uploadPane.setOnDragOver(uploadStart);
+        this._uploadPane.setOnDragDropped(uploadDone);
+        this._uploadPane.setOnMouseClicked(upload);
+        this._generateButton.setOnAction(generate);
     }
 
-    private void upload()
+    EventHandler<MouseEvent> upload = mouseEvent ->
     {
         FileChooser fileChooser = new FileChooser();
         File selectedFile = fileChooser.showOpenDialog(null);
         if (selectedFile != null)
             loadingFile(selectedFile);
-    }
+    };
+
+    EventHandler<DragEvent> uploadDone = dragEvent ->
+    {
+        Dragboard db = dragEvent.getDragboard();
+        boolean success = false;
+        if (db.hasFiles()) {
+            success = true;
+            if (db.getFiles().get(0) != null)
+                loadingFile(db.getFiles().get(0));
+        }
+        dragEvent.setDropCompleted(success);
+        dragEvent.consume();
+    };
+
+    EventHandler<DragEvent> uploadStart = dragEvent ->
+    {
+        if (dragEvent.getGestureSource() != this._uploadPane && dragEvent.getDragboard().hasFiles()) {
+            dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+        }
+        dragEvent.consume();
+    };
+
+    EventHandler<ActionEvent> generate = actionEvent ->
+    {
+        //Generate method
+        if (this._file == null) {
+            showAlert("Veuillez choisir un fichier valide !");
+            return;
+        }
+    };
 
     private void loadingFile(File file)
     {
-        if (!file.isFile())
+        if (!file.isFile() || !getFileExtension(file).equals(".csv"))
         {
             showAlert("Veuillez choisir un fichier valide !");
             return;
         }
+
+        TEAMSProcessor teamsProcessor = new TEAMSProcessor(file,"19/01/2021 à 10:15:00", "19/01/2021 à 11:45:00");
+
+        if (teamsProcessor.get_allpeople().stream().toList().get(0) != null)
+            _dateFileLabel.setText("Date : " + teamsProcessor.get_allpeople().stream().toList().get(0).getDate());
+        else
+            return;
+
         this._uploadPane.setDisable(true);
         this._loadingLabel.setVisible(false);
         this._nameFileLabel.setText("Fichier : " + file.getName());
         this._nameFileLabel.setVisible(true);
-        this._dateFileLabel.setText("Date : ");
         this._dateFileLabel.setVisible(true);
         this._minFileLabel.setText("Heure Min : ");
         this._minFileLabel.setVisible(true);
         this._maxFileLabel.setText("Heure Max : ");
         this._maxFileLabel.setVisible(true);
-
         this._file = file;
     }
 
-    private void generate()
-    {
-        if (this._file == null)
-            return;
-
-        var teamsProcessor = new TEAMSProcessor(this._file,"19/01/2021 à 10:15:00", "19/01/2021 à 11:45:00");
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 
     private void showAlert(String message)

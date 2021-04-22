@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.File;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,6 +14,8 @@ public class TEAMSProcessor {
     private final String _fileName;
     private final String _startTime;
     private final String _endTime;
+    private LocalTime _firstTime;
+    private LocalTime _lastTime;
 
     public TEAMSProcessor(File _file, String _start, String _stop) {
         /*
@@ -39,6 +42,7 @@ public class TEAMSProcessor {
             Collections.sort(peopleByDuration);
             // init the people collection
             this._allpeople = peopleByDuration;//filter.get_peopleList().values();
+            getTime();
         }
     }
 
@@ -96,4 +100,20 @@ public class TEAMSProcessor {
 	    html += "</div> \n </body> \n </html>";
         return html;
     }
+
+    private void getTime()
+    {
+        _firstTime = LocalTime.parse(_allpeople.stream().toList().get(0).get_start().split("à")[1].replaceAll("\\s", ""));
+        _lastTime = LocalTime.parse(_allpeople.stream().toList().get(0).get_stop().split("à")[1].replaceAll("\\s", ""));
+        System.out.println(_firstTime);
+        System.out.println(_lastTime);
+        for (People student: _allpeople.stream().toList())
+        {
+            if (_firstTime.isAfter(LocalTime.parse(student.getDate().split("à")[1])))
+            {
+
+            }
+        }
+    }
+
 }
