@@ -9,9 +9,9 @@ public class Classroom {
     private final LocalDate _date;
     private final LocalTime _begin;
     private final LocalTime _end;
-    private final ArrayList<People> _students;
+    private final ArrayList<Student> _students;
 
-    public Classroom( String name, LocalDate date, LocalTime begin, LocalTime end, ArrayList<People> students ) {
+    public Classroom( String name, LocalDate date, LocalTime begin, LocalTime end, ArrayList<Student> students ) {
         this._name = name;
         this._date = date;
         this._begin = begin;
@@ -35,7 +35,7 @@ public class Classroom {
         return _end;
     }
 
-    public ArrayList<People> getStudents() {
+    public ArrayList<Student> getStudents() {
         return _students;
     }
 

@@ -1,4 +1,4 @@
-package component.teams;
+package model;
 
 import javafx.util.converter.LocalDateTimeStringConverter;
 import java.time.Duration;
@@ -12,11 +12,11 @@ public class Period {
     private LocalDateTimeStringConverter _converter = null;
 
     // TODO Simplifier avec classe statique
-    public Period( String _start) {
+    public Period( String start ) {
         String pattern = "dd/MM/yyyy à HH:mm:ss";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        this._converter = new LocalDateTimeStringConverter(formatter, formatter);
-        this.startAt(_start);
+        this._converter = new LocalDateTimeStringConverter(formatter, null);
+        this.startAt(start);
     }
 
     public void startAt(String instant) {

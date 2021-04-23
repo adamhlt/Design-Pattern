@@ -1,12 +1,12 @@
 package component.teams;
 
 import java.util.*;
-import model.People;
+import model.Student;
 
 public class AttendanceListAnalyzer {
 
     private final LinkedList<String> _attlist;
-    private HashMap<String, People> _peopleList;
+    private HashMap<String, Student> _peopleList;
 
     public AttendanceListAnalyzer( LinkedList<String> _attlist) {
         this._attlist = _attlist;
@@ -30,11 +30,11 @@ public class AttendanceListAnalyzer {
                     String instant = infos[2];
 
                     if (this._peopleList.containsKey(identite)) {
-                        People person = this._peopleList.get(identite);
+                        Student person = this._peopleList.get(identite);
                         person.addPeriod(action, instant);
                         this._peopleList.replace(identite,person);
                     } else {
-                        People person = new People(identite);
+                        Student person = new Student(identite);
                         person.addPeriod(action, instant);
                         this._peopleList.put(identite, person);
                     }
@@ -43,13 +43,13 @@ public class AttendanceListAnalyzer {
         }
     }
 
-    public HashMap<String, People> get_peopleList() {
+    public HashMap<String, Student> get_peopleList() {
         return _peopleList;
     }
 
     public void setStartAndStop(String start, String stop) {
-        Collection<People> allpeople = _peopleList.values();
-        for (People person : allpeople) {
+        Collection<Student> allpeople = _peopleList.values();
+        for ( Student person : allpeople) {
             // IMPORTANT : set ending time before starting time, because it can't be possible
             // to test if a period is before starting time if it has no ending time
             person.forceEndTimeAt(stop);

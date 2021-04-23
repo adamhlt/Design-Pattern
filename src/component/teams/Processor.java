@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-import model.People;
+import model.Student;
 
 public class Processor {
 
-    private Collection<People> _allpeople = null;
+    private Collection<Student> _allpeople = null;
     private final String _fileName;
     private final String _startTime;
     private final String _endTime;
@@ -38,14 +38,14 @@ public class Processor {
             // cut periods before start time and after end time
             filter.setStartAndStop(_start, _stop);
             // sort
-            List<People> peopleByDuration = new ArrayList<People>(filter.get_peopleList().values());
-            Collections.sort(peopleByDuration);
+            List<Student> studentByDuration = new ArrayList<Student>(filter.get_peopleList().values());
+            Collections.sort( studentByDuration );
             // init the people collection
-            this._allpeople = peopleByDuration;//filter.get_peopleList().values();
+            this._allpeople = studentByDuration;//filter.get_peopleList().values();
         }
     }
 
-    public Collection<People> get_allpeople() {
+    public Collection<Student> get_allpeople() {
         return _allpeople;
     }
 
@@ -91,9 +91,9 @@ public class Processor {
                 "</p>";
         html += "<div id=\"blockpeople\"> ";
 
-        for (People people : this._allpeople) {
+        for ( Student student : this._allpeople) {
 
-            html += people.getHTMLCode();
+            html += student.getHTMLCode();
         }
 
 	    html += "</div> \n </body> \n </html>";
