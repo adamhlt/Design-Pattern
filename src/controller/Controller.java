@@ -119,7 +119,7 @@ public class Controller
             return;
         }
 
-        //TODO generate()
+        //TODO appeler Processor.process()
     };
 
     private void loadingFile(File file)

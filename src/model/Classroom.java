@@ -29,11 +29,19 @@ public class Classroom
         _students.add( student );
     }
 
-    public void set_name(String _name) { this._name = _name; }
+    public void setName( String _name) { this._name = _name; }
 
-    public void set_begin(LocalDateTime _begin) { this._begin = _begin; }
+    public void setBegin( LocalDateTime _begin) {
+        this._begin = _begin;
+        //TODO supprimer tout les evenements ( events ) qui sont avant cette date
 
-    public void set_end(LocalDateTime _end) { this._end = _end; }
+    }
+
+    public void setEnd( LocalDateTime _end) {
+        this._end = _end;
+        //TODO supprimer tout les evenements ( events ) qui sont apres cette
+        //TODO si l'eleve ne s'est pas deco ( if isClosed() == false ) alors ajouter un event avec la date de fin
+    }
 
     public String getName() {
         return _name;

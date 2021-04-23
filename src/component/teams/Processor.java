@@ -2,7 +2,9 @@ package component.teams;
 
 import java.io.File;
 
+import component.output.Generator;
 import model.Classroom;
+import utils.DateTimeConverter;
 
 public class Processor
 {
@@ -12,6 +14,13 @@ public class Processor
     public Processor(File file){
         this._fileName = file.getName();
         this._classroom = AttendanceListManager.GenerateClassroom(file);
+    }
+
+    public void Process(Generator generator, String courseName, String begin, String End){
+        this._classroom.setName( courseName );
+        this._classroom.setBegin( DateTimeConverter.getLocalDateTimeFromString( begin ) );
+        this._classroom.setEnd( DateTimeConverter.getLocalDateTimeFromString( End ) );
+        generator.Generate( this._classroom );
     }
 
     public Classroom getClassroom(){
