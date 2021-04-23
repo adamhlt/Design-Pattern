@@ -134,7 +134,7 @@
          </font>
       </CheckBox>
       <Separator layoutX="67.0" layoutY="566.0" prefHeight="2.0" prefWidth="401.0" />
-      <Button id="generateButton" disable="true" layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
+      <Button id="generateButton" layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
       <Label id="loadingLabel" layoutX="172.0" layoutY="199.0" text="Veuillez charger un fichier !">
          <font>
             <Font name="Open Sans Regular" size="15.0" />
