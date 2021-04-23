@@ -12,27 +12,29 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
+import model.Classroom;
 
 import java.io.File;
 
 public class Controller
 {
-    private Pane _uploadPane;
     private final Label _loadingLabel;
     private final Label _nameFileLabel;
-    private Label _dateFileLabel;
+    private final Label _dateFileLabel;
     private final Label _minFileLabel;
     private final Label _maxFileLabel;
-    private final TextField _libelleText;
-    private final TextField _minText;
-    private final TextField _maxText;
     private final RadioButton _idRadio;
     private final RadioButton _nameRadio;
     private final CheckBox _nameCheck;
     private final CheckBox _idCheck;
     private final CheckBox _planningCheck;
     private final Button _generateButton;
+    private TextField _libelleText;
+    private TextField _minText;
+    private TextField _maxText;
     private File _file;
+    private Pane _uploadPane;
+    private Classroom _classroom;
     final String IDLE_BUTTON_STYLE = "-fx-border-color : black; -fx-border-radius : 5";
     final String HOVERED_BUTTON_STYLE = "-fx-border-color : #005eff; -fx-border-radius : 5";
 
@@ -74,7 +76,8 @@ public class Controller
     {
         Dragboard db = dragEvent.getDragboard();
         boolean success = false;
-        if (db.hasFiles()) {
+        if (db.hasFiles())
+        {
             success = true;
             if (db.getFiles().get(0) != null)
                 loadingFile(db.getFiles().get(0));
@@ -85,7 +88,8 @@ public class Controller
 
     EventHandler<DragEvent> uploadStart = dragEvent ->
     {
-        if (dragEvent.getGestureSource() != this._uploadPane && dragEvent.getDragboard().hasFiles()) {
+        if (dragEvent.getGestureSource() != this._uploadPane && dragEvent.getDragboard().hasFiles())
+        {
             dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
         }
         dragEvent.consume();
@@ -93,53 +97,61 @@ public class Controller
 
     EventHandler<ActionEvent> generate = actionEvent ->
     {
-        //Generate method
-        if (this._file == null) {
-            showAlert("Veuillez choisir un fichier valide !");
+        if (this._libelleText.getAccessibleText().toString().isEmpty())
+        {
+            this._libelleText.requestFocus();
+            utils.PopupManager.showAlert("Veullez rensigner un libellé !");
             return;
         }
+
+        if (this._minText.getAccessibleText().toString().isEmpty())
+        {
+            this._minText.requestFocus();
+            utils.PopupManager.showAlert("Veullez rensigner le début du cours !");
+            return;
+        }
+
+        if (this._maxText.getAccessibleText().toString().isEmpty())
+        {
+            this._maxText.requestFocus();
+            utils.PopupManager.showAlert("Veullez rensigner la fin du cours !");
+            return;
+        }
+
+        //TODO generate()
     };
 
     private void loadingFile(File file)
     {
-        if (!file.isFile() || !getFileExtension(file).equals(".csv"))
+        if (!file.isFile() || !utils.FileManager.getFileExtension(file).equals(".csv"))
         {
-            showAlert("Veuillez choisir un fichier valide !");
+            utils.PopupManager.showAlert("Veuillez choisir un fichier valide !");
             return;
         }
 
-        Processor processor = new Processor(file,"19/01/2021 à 10:15:00", "19/01/2021 à 11:45:00");
+        this._file = file;
+        this._classroom = new Classroom();
+        Processor processor = new Processor(file,this._classroom);
 
-        if ( processor.get_allpeople().stream().toList().get(0) != null)
-            _dateFileLabel.setText("Date : " + processor.get_allpeople().stream().toList().get(0).getDate());
+        if (this._classroom.getBegin() != null && this._classroom.getEnd() != null)
+            displayFileDetails();
         else
-            return;
+            utils.PopupManager.showAlert("Erreur lors du chargement du fichier !");
+    }
+
+    private void displayFileDetails()
+    {
+        this._nameFileLabel.setText("Fichier : " + this._file.getName());
+        this._dateFileLabel.setText("Date : " + this._classroom.getBegin().toLocalDate());
+        this._minFileLabel.setText("Heure Min : " + this._classroom.getMinConnection());
+        this._maxFileLabel.setText("Heure Max : " + this._classroom.getMaxConnection());
 
         this._uploadPane.setDisable(true);
         this._loadingLabel.setVisible(false);
-        this._nameFileLabel.setText("Fichier : " + file.getName());
         this._nameFileLabel.setVisible(true);
         this._dateFileLabel.setVisible(true);
-        this._minFileLabel.setText("Heure Min : ");
         this._minFileLabel.setVisible(true);
-        this._maxFileLabel.setText("Heure Max : ");
         this._maxFileLabel.setVisible(true);
-        this._file = file;
-    }
-
-    private String getFileExtension(File file) {
-        String name = file.getName();
-        int lastIndexOf = name.lastIndexOf(".");
-        if (lastIndexOf == -1) {
-            return ""; // empty extension
-        }
-        return name.substring(lastIndexOf);
-    }
-
-    private void showAlert(String message)
-    {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setHeaderText(message);
-        alert.showAndWait();
+        this._generateButton.setDisable(false);
     }
 }
