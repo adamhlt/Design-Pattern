@@ -3,6 +3,8 @@ package controller;
 import component.output.Csv;
 import component.output.Debug;
 import component.output.Html;
+import component.sort.SortByID;
+import component.sort.SortByName;
 import component.teams.Processor;
 
 import javafx.event.ActionEvent;
@@ -148,6 +150,12 @@ public class Controller
 
         if (this._csvRadio.isSelected())
             this._processor.setGenerator(new Csv());
+
+        if (this._idRadio.isSelected())
+            this._processor.setSorter(new SortByID());
+
+        if (this._nameRadio.isSelected())
+            this._processor.setSorter(new SortByName());
 
         String classroomName = this._libelleText.getText();
         String heureMin = this._minText.getText();
