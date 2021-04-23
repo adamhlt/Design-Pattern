@@ -34,11 +34,14 @@ public class Student {
         for ( LocalDateTime event : this._eventList ) {
             if( isConnected )
                 totalDuration += Duration.between(lastEvent,event).toMinutes();
-
             lastEvent = event;
             isConnected = !isConnected;
         }
         return Math.round(totalDuration);
+    }
+
+    public int getAttendancePercent(long classDuration){
+       return Math.round(getTotalAttendanceDuration() * 100 / classDuration);
     }
 
     public boolean isClosed() {

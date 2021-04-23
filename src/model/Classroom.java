@@ -2,6 +2,7 @@ package model;
 
 import utils.StudentIDServer;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -32,7 +33,11 @@ public class Classroom
 
     public void setName( String _name) { this._name = _name; }
 
-    public void setBegin( LocalDateTime _begin) {
+    public LocalDateTime get_begin() {
+        return _begin;
+    }
+
+    public void setBegin(LocalDateTime _begin) {
         this._begin = _begin;
         for (Student student : this._students)
         {
@@ -48,6 +53,10 @@ public class Classroom
                 student.getEventList().addFirst(this._begin);
             student.getTotalAttendanceDuration();
         }
+    }
+
+    public LocalDateTime get_end() {
+        return _end;
     }
 
     public void setEnd( LocalDateTime _end) {
@@ -98,5 +107,9 @@ public class Classroom
         }
         assert max != null;
         return max.toLocalTime();
+    }
+
+    public long getDureeCours(){
+        return Duration.between(this._begin, this._end).toMinutes();
     }
 }
