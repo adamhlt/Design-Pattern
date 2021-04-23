@@ -47,6 +47,8 @@ public class Debug implements Generator{
             details.append(student.getName());
             details.append("  Temps Total : ");
             details.append(student.getTotalAttendanceDuration());
+            details.append("  Pourcentage : ");
+            details.append(student.getAttendancePercent(classroom.getDureeCours()));
             details.append("\n\n");
         }
         return details.toString();
