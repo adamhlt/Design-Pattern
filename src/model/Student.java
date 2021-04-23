@@ -4,7 +4,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
-public class Student implements Comparable<Student> {
+public class Student {
 
     private final String _name;
     private final String _id;
@@ -54,23 +54,4 @@ public class Student implements Comparable<Student> {
     }
 
     public LinkedList<LocalDateTime> getEventList() { return _eventList; }
-
-    @Override
-    public String toString() {
-        return "People{" +
-                "_name='" + _name + '\'' +
-                ", _id='" + _id + '\'' +
-                ", _periodList=" + _eventList +
-                '}';
-    }
-
-    @Override
-    public int compareTo( Student o) {
-        return (int)(this.getTotalAttendanceDuration()-o.getTotalAttendanceDuration());
-    }
-
-    public boolean isOutOfPeriod() {
-        return this._eventList.isEmpty();
-    }
-
 }
