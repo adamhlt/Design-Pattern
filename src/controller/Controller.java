@@ -1,5 +1,8 @@
 package controller;
 
+import component.output.Csv;
+import component.output.Debug;
+import component.output.Html;
 import component.teams.Processor;
 
 import javafx.event.ActionEvent;
@@ -15,6 +18,7 @@ import javafx.stage.FileChooser;
 import model.Classroom;
 
 import java.io.File;
+import java.time.format.DateTimeFormatter;
 
 public class Controller
 {
@@ -26,8 +30,6 @@ public class Controller
     private final Label _dateFileLabel;
     private final Label _minFileLabel;
     private final Label _maxFileLabel;
-    private final RadioButton _idRadio;
-    private final RadioButton _nameRadio;
     private final CheckBox _nameCheck;
     private final CheckBox _idCheck;
     private final CheckBox _planningCheck;
@@ -38,9 +40,17 @@ public class Controller
     private TextField _maxText;
     private Processor _processor;
     private Pane _uploadPane;
+    private RadioButton _idRadio;
+    private RadioButton _nameRadio;
+    private RadioButton _debugRadio;
+    private RadioButton _htmlRadio;
+    private RadioButton _csvRadio;
 
     public Controller(Parent root)
     {
+        ToggleGroup sortGroup = new ToggleGroup();
+        ToggleGroup outputGroup = new ToggleGroup();
+
         this._uploadPane = (Pane) root.lookup("#uploadPane");
         this._loadingLabel = (Label) root.lookup("#loadingLabel");
         this._nameFileLabel = (Label) root.lookup("#nameFileLabel");
@@ -56,6 +66,9 @@ public class Controller
         this._idCheck = (CheckBox) root.lookup("#idCheck");
         this._planningCheck = (CheckBox) root.lookup("#planningCheck");
         this._generateButton = (Button) root.lookup("#generateButton");
+        this._debugRadio = (RadioButton) root.lookup("#debugRadio");
+        this._htmlRadio = (RadioButton) root.lookup("#htmlRadio");
+        this._csvRadio = (RadioButton) root.lookup("#csvRadio");
 
         this._uploadPane.setOnMouseEntered(e -> _uploadPane.setStyle(HOVERED_BUTTON_STYLE));
         this._uploadPane.setOnMouseExited(e -> _uploadPane.setStyle(IDLE_BUTTON_STYLE));
@@ -63,6 +76,14 @@ public class Controller
         this._uploadPane.setOnDragDropped(uploadDone);
         this._uploadPane.setOnMouseClicked(upload);
         this._generateButton.setOnAction(generate);
+        this._idRadio.setToggleGroup(sortGroup);
+        this._nameRadio.setToggleGroup(sortGroup);
+        this._debugRadio.setToggleGroup(outputGroup);
+        this._htmlRadio.setToggleGroup(outputGroup);
+        this._csvRadio.setToggleGroup(outputGroup);
+
+        this._idRadio.setSelected(true);
+        this._debugRadio.setSelected(true);
     }
 
     EventHandler<MouseEvent> upload = mouseEvent ->
@@ -98,28 +119,40 @@ public class Controller
 
     EventHandler<ActionEvent> generate = actionEvent ->
     {
-        if (this._libelleText.getAccessibleText().toString().isEmpty())
+        if (this._libelleText.getText() == null || this._libelleText.getText().isEmpty())
         {
             this._libelleText.requestFocus();
             utils.PopupManager.showAlert("Veullez rensigner un libellé !");
             return;
         }
 
-        if (this._minText.getAccessibleText().toString().isEmpty())
+        if (this._minText.getText() == null || this._minText.getText().isEmpty())
         {
             this._minText.requestFocus();
             utils.PopupManager.showAlert("Veullez rensigner le début du cours !");
             return;
         }
 
-        if (this._maxText.getAccessibleText().toString().isEmpty())
+        if (this._maxText.getText() == null || this._maxText.getText().isEmpty())
         {
             this._maxText.requestFocus();
             utils.PopupManager.showAlert("Veullez rensigner la fin du cours !");
             return;
         }
 
-        //TODO appeler Processor.process()
+        if (this._debugRadio.isSelected())
+            this._processor.setGenerator(new Debug());
+
+        if (this._htmlRadio.isSelected())
+            this._processor.setGenerator(new Html());
+
+        if (this._csvRadio.isSelected())
+            this._processor.setGenerator(new Csv());
+
+        String classroomName = this._libelleText.getText();
+        String heureMin = this._minText.getText();
+        String heureMax = this._maxText.getText();
+        this._processor.Process(classroomName, heureMin, heureMax);
     };
 
     private void loadingFile(File file)
@@ -131,7 +164,6 @@ public class Controller
         }
 
         this._processor = new Processor( file );
-
         displayFileDetails();
     }
 
@@ -140,7 +172,7 @@ public class Controller
         Classroom classroom = this._processor.getClassroom();
 
         this._nameFileLabel.setText("Fichier : " + this._processor.getFileName());
-        this._dateFileLabel.setText("Date : " + classroom.getDate().toString());
+        this._dateFileLabel.setText("Date : " + classroom.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         this._minFileLabel.setText("Heure Min : " + classroom.getMinConnection().toString());
         this._maxFileLabel.setText("Heure Max : " + classroom.getMaxConnection().toString());
 
@@ -151,5 +183,8 @@ public class Controller
         this._minFileLabel.setVisible(true);
         this._maxFileLabel.setVisible(true);
         this._generateButton.setDisable(false);
+        this._libelleText.setDisable(false);
+        this._minText.setDisable(false);
+        this._maxText.setDisable(false);
     }
 }

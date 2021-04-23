@@ -1,7 +1,5 @@
 package model;
 
-import utils.StudentIDServer;
-
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -54,6 +52,8 @@ public class Student implements Comparable<Student> {
     public LocalDateTime getLastEvent(){
         return ( _eventList.size() != 0 )?_eventList.getLast():null;
     }
+
+    public LinkedList<LocalDateTime> getEventList() { return _eventList; }
 
     @Override
     public String toString() {

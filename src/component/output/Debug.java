@@ -14,8 +14,8 @@ public class Debug implements Generator{
     {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.initStyle(StageStyle.UTILITY);
-        alert.setTitle("Debug Dialog");
-        alert.setHeaderText("Affichage Debug");
+        alert.setTitle("Debug Dialog Cours");
+        alert.setHeaderText("Affichage Debug Cours : " + classroom.getName());
         alert.setContentText("Détails de tous les élèves :");
 
         TextArea textArea = new TextArea(getDetails(classroom));
@@ -43,11 +43,11 @@ public class Debug implements Generator{
         {
             details.append("ID : ");
             details.append(student.getId());
-            details.append(" Nom : ");
+            details.append("  Nom : ");
             details.append(student.getName());
-            details.append(" Temps Total : ");
+            details.append("  Temps Total : ");
             details.append(student.getTotalAttendanceDuration());
-            details.append("\n");
+            details.append("\n\n");
         }
         return details.toString();
     }

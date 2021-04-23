@@ -1,12 +1,12 @@
 package model;
 
-import utils.DateTimeConverter;
 import utils.StudentIDServer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Classroom
 {
@@ -33,26 +33,35 @@ public class Classroom
 
     public void setBegin( LocalDateTime _begin) {
         this._begin = _begin;
-        //TODO supprimer tout les evenements ( events ) qui sont avant cette date
-
+        for (Student student : this._students)
+        {
+            Iterator<LocalDateTime> iterator = student.getEventList().iterator();
+            boolean closed = student.isClosed();
+            while (iterator.hasNext())
+            {
+                LocalDateTime time = iterator.next();
+                if (time.toLocalTime().isBefore(this._begin.toLocalTime()))
+                    iterator.remove();
+            }
+            if (closed != student.isClosed())
+                student.getEventList().addFirst(this._begin);
+            student.getTotalAttendanceDuration();
+        }
     }
 
     public void setEnd( LocalDateTime _end) {
         this._end = _end;
-        //TODO supprimer tout les evenements ( events ) qui sont apres cette
-        //TODO si l'eleve ne s'est pas deco ( if isClosed() == false ) alors ajouter un event avec la date de fin
+        for (Student student : this._students)
+        {
+            student.getEventList().removeIf(time -> time.toLocalTime().isAfter(this._end.toLocalTime()));
+            if (!student.isClosed())
+                student.getEventList().addLast(this._end);
+            student.getTotalAttendanceDuration();
+        }
     }
 
     public String getName() {
         return _name;
-    }
-
-    public LocalDateTime getBegin() {
-        return _begin;
-    }
-
-    public LocalDateTime getEnd() {
-        return _end;
     }
 
     public ArrayList<Student> getStudents() {
