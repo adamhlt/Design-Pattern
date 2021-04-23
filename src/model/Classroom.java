@@ -1,5 +1,7 @@
 package model;
 
+import utils.DateTimeConverter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -13,6 +15,12 @@ public class Classroom
     private final ArrayList<Student> _students;
 
     public Classroom() { this._students = new ArrayList<>(); }
+    public Classroom(String name,String begin,String end){
+        this._name = name;
+        this._begin = DateTimeConverter.getLocalDateTimeFromString( begin );
+        this._end = DateTimeConverter.getLocalDateTimeFromString( end );
+        this._students = new ArrayList<>();
+    }
 
     public void set_name(String _name) { this._name = _name; }
 

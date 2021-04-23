@@ -131,7 +131,7 @@ public class Controller
 
         this._file = file;
         this._classroom = new Classroom();
-        Processor processor = new Processor(file,this._classroom);
+        //Processor processor = new Processor(file,this._classroom);
 
         if (this._classroom.getBegin() != null && this._classroom.getEnd() != null)
             displayFileDetails();

@@ -8,10 +8,6 @@ public class FileManager
     {
         String name = file.getName();
         int lastIndexOf = name.lastIndexOf(".");
-        if (lastIndexOf == -1)
-        {
-            return "";
-        }
-        return name.substring(lastIndexOf);
+        return (lastIndexOf != -1)?name.substring(lastIndexOf):"";
     }
 }
