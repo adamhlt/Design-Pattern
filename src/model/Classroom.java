@@ -1,6 +1,7 @@
 package model;
 
 import utils.DateTimeConverter;
+import utils.StudentIDServer;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,6 +21,18 @@ public class Classroom
         this._begin = DateTimeConverter.getLocalDateTimeFromString( begin );
         this._end = DateTimeConverter.getLocalDateTimeFromString( end );
         this._students = new ArrayList<>();
+    }
+
+    public void addInfo(String identite,LocalDateTime instant){
+        String id = StudentIDServer.getId( identite );
+        for( Student student : _students )
+            if( student.getId().equals( id ) ){
+                student.addPeriod( instant );
+                return;
+            }
+        Student student = new Student( id , identite );
+        student.addPeriod( instant );
+        _students.add( student );
     }
 
     public void set_name(String _name) { this._name = _name; }

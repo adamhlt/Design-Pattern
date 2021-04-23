@@ -46,32 +46,22 @@ public class AttendanceListManager {
         return attlist;
     }
 
-    private static Classroom processList(LinkedList<String> attlist){
-            this._peopleList = new HashMap<>();
-            Iterator<String> element = attlist.iterator();
-            // first line unused
-            element.next();
-            // process all lines
-            while (element.hasNext()) {
-                String input = element.next();
+    private static Classroom processList(LinkedList<String> attlist) {
+        Classroom classroom = new Classroom();
+        Iterator<String> element = attlist.iterator();
+        // first line unused
+        element.next();
+        // process all lines
+        while (element.hasNext()) {
+            String input = element.next();
 
-                String[] infos = input.split( "\t" );
-                if ( infos.length == 3 ) {
-                    String identite = infos[0];
-                    LocalDateTime instant = DateTimeConverter.getLocalDateTimeFromString( infos[2] );
-
-                    // TODO Ingore datetime that begin or end before or after the end of the course
-                    Student person;
-                    if ( this._peopleList.containsKey( identite ) )
-                        person = this._peopleList.get( identite );
-                    else {
-                        person = new Student( identite );
-                        this._peopleList.put( identite, person );
-                    }
-
-                    person.addPeriod( instant );
-                }
+            String[] infos = input.split( "\t" );
+            if ( infos.length == 3 ) {
+                String identite = infos[0];
+                LocalDateTime instant = DateTimeConverter.getLocalDateTimeFromString( infos[2] );
+                classroom.addInfo( identite , instant );
             }
-        return new Classroom();
+        }
+        return classroom;
     }
 }

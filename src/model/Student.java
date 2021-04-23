@@ -13,9 +13,9 @@ public class Student implements Comparable<Student> {
 
     private final LinkedList<LocalDateTime> _eventList;
 
-    public Student( String name ) {
+    public Student( String id , String name ) {
         this._name = name;
-        this._id = StudentIDServer.getId(this._name);
+        this._id = id;
         this._eventList = new LinkedList<>();
     }
 
