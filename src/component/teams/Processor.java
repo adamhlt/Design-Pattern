@@ -8,13 +8,12 @@ import utils.DateTimeConverter;
 
 public class Processor
 {
-    private final String _fileName;
     private final Classroom _classroom;
     private Generator _generator;
 
     public Processor(File file){
-        this._fileName = file.getName();
         this._classroom = AttendanceListManager.GenerateClassroom(file);
+        this._classroom.setFilename(file.getName());
     }
 
     public void Process(String courseName, String begin, String End){
@@ -26,10 +25,6 @@ public class Processor
 
     public Classroom getClassroom(){
         return _classroom;
-    }
-
-    public String getFileName(){
-        return _fileName;
     }
 
     public void setGenerator(Generator generator) { this._generator = generator; }

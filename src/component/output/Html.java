@@ -2,11 +2,86 @@ package component.output;
 
 import model.Classroom;
 import model.Student;
+import utils.PopupManager;
+
+import java.io.FileWriter;
+import java.time.format.DateTimeFormatter;
 
 public class Html implements Generator {
     @Override
-    public void Generate( Classroom classroom ) {
+    public void Generate( Classroom classroom )
+    {
+        try
+        {
+            FileWriter html = new FileWriter(classroom.getName() + ".html");
+            html.append("<!DOCTYPE html>\n");
+            html.append("   <html lang=\"fr\">\n");
+            html.append("   <head>\n");
+            html.append("       <meta charset=\"utf-8\"><title> Attendance Report </title>\n");
+            html.append("       <link rel=\"stylesheet\" media=\"all\" href=\"visu.css\">\n");
+            html.append("   </head>\n");
+            html.append("   <body>\n");
+            html.append("       <h1> Rapport de connexion </h1>\n\n");
+            html.append("       <div id=\"blockid\">");
+            html.append("       <table>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Date : </th>\n");
+            html.append("               <td>" + classroom.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) + "</td>\n");
+            html.append("           </tr>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Heure début : </th>\n");
+            html.append("               <td> " + classroom.getBegin().toLocalTime() + "</td>\n");
+            html.append("           </tr>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Heure fin : </th>\n");
+            html.append("               <td>" + classroom.getEnd().toLocalTime() +"</td>\n");
+            html.append("           </tr>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Cours : </th>\n");
+            html.append("               <td>" + classroom.getName() + "</td>\n");
+            html.append("           </tr>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Fichier analysé : </th>\n");
+            html.append("               <td>" + classroom.getFilename() + "</td>\n");
+            html.append("           </tr>\n");
+            html.append("           <tr>\n");
+            html.append("               <th> Nombre de connectés : </th>\n");
+            html.append("               <td>" + classroom.getStudents().size() + "</td>\n");
+            html.append("           </tr>\n");
+            html.append("       </table>\n\n");
+            html.append("       <h2> Durées de connexion</h2>\n\n");
+            html.append("       <p> Pour chaque personne ci-dessous, on retrouve son temps total de connexion sur la plage déclarée du cours, ainsi qu'un graphe qui indique les périodes de connexion (en vert) et d'absence de connexion (en blanc). En pointant la souris sur une zone, une bulle affiche les instants de début et de fin de période.</p>\n");
+            html.append("       <div id=\"blockpeople\">\n");
 
+            for (Student student : classroom.getStudents())
+            {
+                html.append(        "<div class=\"datapeople\">\n");
+                html.append(        "<div class=\"name\">" + student.getName() + "</div>\n");
+                html.append(        "<div class=\"timebar\">\n");
+
+                for (int i = 0; i < student.getEventList().size(); i = i+2)
+                {
+
+                }
+
+                html.append("       </div>\n");
+                html.append("       <div class=\"duration\">" + student.getTotalAttendanceDuration() + "</div> \n");
+                html.append("       <div class=\"percentd\"> 100% </div> \n");
+                html.append("       </div>\n");
+
+            }
+
+            html.append("       </div>\n");
+            html.append("   </body> \n");
+            html.append("</html>\n");
+
+            html.flush();
+            html.close();
+        }
+        catch (Exception e)
+        {
+            PopupManager.showAlert("Erreur lors de la création du fichier !");
+        }
     }
 
     /*

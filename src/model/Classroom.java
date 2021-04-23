@@ -11,6 +11,7 @@ import java.util.Iterator;
 public class Classroom
 {
     private String _name;
+    private String _filename;
     private LocalDateTime _begin;
     private LocalDateTime _end;
     private final ArrayList<Student> _students;
@@ -60,13 +61,17 @@ public class Classroom
         }
     }
 
-    public String getName() {
-        return _name;
-    }
+    public void setFilename(String _filename) { this._filename = _filename; }
 
-    public ArrayList<Student> getStudents() {
-        return _students;
-    }
+    public String getFilename() { return _filename; }
+
+    public String getName() { return _name; }
+
+    public LocalDateTime getBegin() { return _begin; }
+
+    public LocalDateTime getEnd() { return _end; }
+
+    public ArrayList<Student> getStudents() { return _students; }
 
     public LocalDate getDate() {
         assert _students.size() != 0;

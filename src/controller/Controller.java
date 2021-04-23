@@ -171,7 +171,7 @@ public class Controller
     {
         Classroom classroom = this._processor.getClassroom();
 
-        this._nameFileLabel.setText("Fichier : " + this._processor.getFileName());
+        this._nameFileLabel.setText("Fichier : " + classroom.getFilename());
         this._dateFileLabel.setText("Date : " + classroom.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         this._minFileLabel.setText("Heure Min : " + classroom.getMinConnection().toString());
         this._maxFileLabel.setText("Heure Max : " + classroom.getMaxConnection().toString());
