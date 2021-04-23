@@ -5,6 +5,7 @@ import component.output.Debug;
 import component.output.Html;
 import component.sort.SortByID;
 import component.sort.SortByName;
+import component.sort.SortByTime;
 import component.teams.Processor;
 
 import javafx.event.ActionEvent;
@@ -47,6 +48,7 @@ public class Controller
     private RadioButton _debugRadio;
     private RadioButton _htmlRadio;
     private RadioButton _csvRadio;
+    private RadioButton _timeRadio;
 
     public Controller(Parent root)
     {
@@ -71,6 +73,7 @@ public class Controller
         this._debugRadio = (RadioButton) root.lookup("#debugRadio");
         this._htmlRadio = (RadioButton) root.lookup("#htmlRadio");
         this._csvRadio = (RadioButton) root.lookup("#csvRadio");
+        this._timeRadio = (RadioButton) root.lookup("#timeRadio");
 
         this._uploadPane.setOnMouseEntered(e -> _uploadPane.setStyle(HOVERED_BUTTON_STYLE));
         this._uploadPane.setOnMouseExited(e -> _uploadPane.setStyle(IDLE_BUTTON_STYLE));
@@ -80,6 +83,7 @@ public class Controller
         this._generateButton.setOnAction(generate);
         this._idRadio.setToggleGroup(sortGroup);
         this._nameRadio.setToggleGroup(sortGroup);
+        this._timeRadio.setToggleGroup(sortGroup);
         this._debugRadio.setToggleGroup(outputGroup);
         this._htmlRadio.setToggleGroup(outputGroup);
         this._csvRadio.setToggleGroup(outputGroup);
@@ -156,6 +160,9 @@ public class Controller
 
         if (this._nameRadio.isSelected())
             this._processor.setSorter(new SortByName());
+
+        if (this._timeRadio.isSelected())
+            this._processor.setSorter(new SortByTime());
 
         String classroomName = this._libelleText.getText();
         String heureMin = this._minText.getText();

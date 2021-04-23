@@ -176,5 +176,10 @@
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </RadioButton>
+      <RadioButton id="timeRadio" layoutX="49.0" layoutY="518.0" mnemonicParsing="false" text="par Durée">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
    </children>
 </Pane>
