@@ -1,4 +1,4 @@
-package controller;
+package component.teams;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

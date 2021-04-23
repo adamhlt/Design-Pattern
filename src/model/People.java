@@ -1,12 +1,14 @@
 package model;
 
+import component.teams.DateTimeConverter;
+import component.teams.Period;
+import component.teams.StudentIDServer;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.Locale;
-
-import controller.*;
 
 public class People implements Comparable<People> {
 
@@ -23,7 +25,7 @@ public class People implements Comparable<People> {
 
     private String _start;
     private String _stop;
-    private LinkedList<TEAMSPeriod> _periodList;
+    private LinkedList<Period> _periodList;
 
     public People(String _name) {
         this._name = _name;
@@ -38,7 +40,7 @@ public class People implements Comparable<People> {
     public void addPeriod(String action, String instant) {
 
         if ( action.charAt(0) == 'R' ) {
-            TEAMSPeriod period = new TEAMSPeriod(instant);
+            Period period = new Period(instant);
             this._periodList.add(period);
         } else
             if ( action.charAt(0) == 'A' ) {
@@ -51,7 +53,7 @@ public class People implements Comparable<People> {
     public void forceEndTimeAt(String instant) {
         this._stop = instant;
         // delete all periods started after ending time
-        var localPeriodEndingTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._stop);
+        var localPeriodEndingTime = DateTimeConverter.StringToLocalDateTime(this._stop);
         boolean STOP = false;
         while (!STOP) {
             if (this._periodList.size()>0 && this._periodList.getLast().get_start().isAfter(localPeriodEndingTime))
@@ -74,7 +76,7 @@ public class People implements Comparable<People> {
         // delete all periods ended before starting time
         var periods = this._periodList.iterator();
         boolean STOP = false;
-        var localPeriodStartingTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._start);
+        var localPeriodStartingTime = DateTimeConverter.StringToLocalDateTime(this._start);
         while ( periods.hasNext() && !STOP) {
             var period = periods.next();
             if (period.get_end().isBefore(localPeriodStartingTime))
@@ -90,7 +92,7 @@ public class People implements Comparable<People> {
 
     public long getTotalAttendanceDuration() {
         double totalDuration = 0;
-        for (TEAMSPeriod period : this._periodList) {
+        for ( Period period : this._periodList) {
             totalDuration += period.getDurationInMinutes();
         }
         return Math.round(totalDuration);
@@ -109,8 +111,8 @@ public class People implements Comparable<People> {
         if ( this.isOutOfPeriod() ) return ("");
 
         // duration max, in order to compute images width in percent
-        LocalDateTime startTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._start);
-        LocalDateTime endTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._stop);
+        LocalDateTime startTime = DateTimeConverter.StringToLocalDateTime(this._start);
+        LocalDateTime endTime = DateTimeConverter.StringToLocalDateTime(this._stop);
         Duration delayMax = Duration.between(startTime, endTime);
         double durationMaxMinutes = Math.abs(delayMax.toSeconds()/60.);
 
@@ -120,8 +122,8 @@ public class People implements Comparable<People> {
 		html +=	"<div class=\"timebar\">";
 
         double totalDuration = 0;
-        LocalDateTime refTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._start);
-        for (TEAMSPeriod period : this._periodList) {
+        LocalDateTime refTime = DateTimeConverter.StringToLocalDateTime(this._start);
+        for ( Period period : this._periodList) {
 
             LocalDateTime begin = period.get_start();
             LocalDateTime end = period.get_end();
@@ -131,24 +133,24 @@ public class People implements Comparable<People> {
             Duration delay = Duration.between(refTime, begin);
             double delayMinutes = Math.abs(delay.toSeconds()/60.);
             if (delayMinutes>0.0) {
-                html += "<img src=\"off.png\" ";
+                html += "<fxml.img src=\"off.png\" ";
                 html += "width=\"" + (100.*delayMinutes/durationMaxMinutes) + "%\" ";
                 html += "height=\"20\" title=\"absent(e) de " + refTime.toString();
                 html += " à " + begin.toString() + " \"> \n";
             }
             // green bar for the current period
-            html += "<img src=\"on.png\" ";
+            html += "<fxml.img src=\"on.png\" ";
             html += "width=\"" + (100.*duration/durationMaxMinutes) + "%\" ";
             html += "height=\"20\" title=\"connecté(e) de " + begin.toString();
             html += " à " + end.toString()+ "\"> \n";
             refTime = end;
         }
         // last period aligned on end time ?
-        //LocalDateTime endTime = TEAMSDateTimeConverter.StringToLocalDateTime(this._stop);
+        //LocalDateTime endTime = component.teams.TEAMSDateTimeConverter.StringToLocalDateTime(this._stop);
         Duration delay = Duration.between(refTime, endTime);
         double delayMinutes = Math.abs(delay.toSeconds()/60.);
         if (delayMinutes>0.0) {
-            html += "<img src=\"off.png\" ";
+            html += "<fxml.img src=\"off.png\" ";
             html += "width=\"" + (100.*delayMinutes/durationMaxMinutes) + "%\" ";
             html += "height=\"20\" title=\"absent(e) de " + refTime.toString();
             html += " à " + endTime.toString() + " \"> \n";

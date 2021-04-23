@@ -1,5 +1,7 @@
 package controller;
 
+import component.teams.Processor;
+
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
@@ -10,10 +12,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.Pane;
 import javafx.stage.FileChooser;
-import model.People;
 
 import java.io.File;
-import java.util.Collection;
 
 public class Controller
 {
@@ -108,10 +108,10 @@ public class Controller
             return;
         }
 
-        TEAMSProcessor teamsProcessor = new TEAMSProcessor(file,"19/01/2021 à 10:15:00", "19/01/2021 à 11:45:00");
+        Processor processor = new Processor(file,"19/01/2021 à 10:15:00", "19/01/2021 à 11:45:00");
 
-        if (teamsProcessor.get_allpeople().stream().toList().get(0) != null)
-            _dateFileLabel.setText("Date : " + teamsProcessor.get_allpeople().stream().toList().get(0).getDate());
+        if ( processor.get_allpeople().stream().toList().get(0) != null)
+            _dateFileLabel.setText("Date : " + processor.get_allpeople().stream().toList().get(0).getDate());
         else
             return;
 

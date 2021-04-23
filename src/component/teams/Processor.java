@@ -1,4 +1,4 @@
-package controller;
+package component.teams;
 
 import java.io.File;
 import java.time.LocalTime;
@@ -8,7 +8,7 @@ import java.util.Collections;
 import java.util.List;
 import model.People;
 
-public class TEAMSProcessor {
+public class Processor {
 
     private Collection<People> _allpeople = null;
     private final String _fileName;
@@ -17,7 +17,7 @@ public class TEAMSProcessor {
     private LocalTime _firstTime;
     private LocalTime _lastTime;
 
-    public TEAMSProcessor(File _file, String _start, String _stop) {
+    public Processor( File _file, String _start, String _stop) {
         /*
          csv file to read
          start time of the course
@@ -28,13 +28,13 @@ public class TEAMSProcessor {
 
         // load CSV file
         this._fileName = _file.getName();
-        var teamsFile = new TEAMSAttendanceList(_file);
+        var teamsFile = new AttendanceList(_file);
 
         // filter to extract data for each people
         var lines = teamsFile.get_attlist();
         if (lines != null) {
             // convert lines in data structure with people & periods
-            var filter = new TEAMSAttendanceListAnalyzer(lines);
+            var filter = new AttendanceListAnalyzer(lines);
             // cut periods before start time and after end time
             filter.setStartAndStop(_start, _stop);
             // sort
@@ -42,7 +42,6 @@ public class TEAMSProcessor {
             Collections.sort(peopleByDuration);
             // init the people collection
             this._allpeople = peopleByDuration;//filter.get_peopleList().values();
-            getTime();
         }
     }
 
@@ -99,21 +98,6 @@ public class TEAMSProcessor {
 
 	    html += "</div> \n </body> \n </html>";
         return html;
-    }
-
-    private void getTime()
-    {
-        _firstTime = LocalTime.parse(_allpeople.stream().toList().get(0).get_start().split("à")[1].replaceAll("\\s", ""));
-        _lastTime = LocalTime.parse(_allpeople.stream().toList().get(0).get_stop().split("à")[1].replaceAll("\\s", ""));
-        System.out.println(_firstTime);
-        System.out.println(_lastTime);
-        for (People student: _allpeople.stream().toList())
-        {
-            if (_firstTime.isAfter(LocalTime.parse(student.getDate().split("à")[1])))
-            {
-
-            }
-        }
     }
 
 }

@@ -1,10 +1,10 @@
-package controller;
+package component.teams;
 
 import javafx.util.converter.LocalDateTimeStringConverter;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 
-public class TEAMSDateTimeConverter {
+public class DateTimeConverter {
 
     public static LocalDateTime StringToLocalDateTime(String instant) {
         

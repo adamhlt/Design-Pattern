@@ -1,14 +1,14 @@
-package controller;
+package component.teams;
 
 import java.io.*;
 import java.util.LinkedList;
 
-public class TEAMSAttendanceList {
+public class AttendanceList {
 
     private final File _file;
     private LinkedList<String> _attlist = null;
 
-    public TEAMSAttendanceList(File _file) {
+    public AttendanceList( File _file) {
         this._file = _file;
         this.loadTeamsCSVFile();
     }

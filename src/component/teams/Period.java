@@ -1,18 +1,18 @@
-package controller;
+package component.teams;
 
 import javafx.util.converter.LocalDateTimeStringConverter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class TEAMSPeriod {
+public class Period {
 
     private LocalDateTime _start = null;
     private LocalDateTime _end = null;
     private LocalDateTimeStringConverter _converter = null;
 
     // TODO Simplifier avec classe statique
-    public TEAMSPeriod(String _start) {
+    public Period( String _start) {
         String pattern = "dd/MM/yyyy à HH:mm:ss";
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
         this._converter = new LocalDateTimeStringConverter(formatter, formatter);
@@ -46,7 +46,7 @@ public class TEAMSPeriod {
 
     @Override
     public String toString() {
-        return "TEAMSPeriod{" +
+        return "component.teams.TEAMSPeriod{" +
                 "_start=" + _start +
                 ", _end=" + _end +
                 '}';

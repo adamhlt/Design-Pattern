@@ -1,14 +1,14 @@
-package controller;
+package component.teams;
 
 import java.util.*;
 import model.People;
 
-public class TEAMSAttendanceListAnalyzer {
+public class AttendanceListAnalyzer {
 
     private final LinkedList<String> _attlist;
     private HashMap<String, People> _peopleList;
 
-    public TEAMSAttendanceListAnalyzer(LinkedList<String> _attlist) {
+    public AttendanceListAnalyzer( LinkedList<String> _attlist) {
         this._attlist = _attlist;
         this.processList();
     }
