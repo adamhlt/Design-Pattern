@@ -1,7 +1,9 @@
 package component.teams;
 
+import java.time.LocalDateTime;
 import java.util.*;
 import model.Student;
+import utils.DateTimeConverter;
 
 public class AttendanceListAnalyzer {
 
@@ -26,18 +28,18 @@ public class AttendanceListAnalyzer {
                 String[] infos = input.split("\t");
                 if (infos.length==3) {
                     String identite = infos[0];
-                    String action = infos[1];
-                    String instant = infos[2];
+                    LocalDateTime instant = DateTimeConverter.getLocalDateTimeFromString(infos[2]);
 
-                    if (this._peopleList.containsKey(identite)) {
-                        Student person = this._peopleList.get(identite);
-                        person.addPeriod(action, instant);
-                        this._peopleList.replace(identite,person);
-                    } else {
-                        Student person = new Student(identite);
-                        person.addPeriod(action, instant);
+                    // TODO Ingore datetime that begin or end before or after the end of the course
+                    Student person;
+                    if (this._peopleList.containsKey(identite))
+                        person = this._peopleList.get(identite);
+                    else {
+                        person = new Student( identite );
                         this._peopleList.put(identite, person);
                     }
+
+                    person.addPeriod(instant);
                 }
             }
         }
@@ -45,16 +47,6 @@ public class AttendanceListAnalyzer {
 
     public HashMap<String, Student> get_peopleList() {
         return _peopleList;
-    }
-
-    public void setStartAndStop(String start, String stop) {
-        Collection<Student> allpeople = _peopleList.values();
-        for ( Student person : allpeople) {
-            // IMPORTANT : set ending time before starting time, because it can't be possible
-            // to test if a period is before starting time if it has no ending time
-            person.forceEndTimeAt(stop);
-            person.forceStartTimeAt(start);
-        }
     }
 
 }
