@@ -18,6 +18,9 @@ import java.io.File;
 
 public class Controller
 {
+    private static final String IDLE_BUTTON_STYLE = "-fx-border-color : black; -fx-border-radius : 5";
+    private static final String HOVERED_BUTTON_STYLE = "-fx-border-color : #005eff; -fx-border-radius : 5";
+
     private final Label _loadingLabel;
     private final Label _nameFileLabel;
     private final Label _dateFileLabel;
@@ -29,14 +32,12 @@ public class Controller
     private final CheckBox _idCheck;
     private final CheckBox _planningCheck;
     private final Button _generateButton;
+
     private TextField _libelleText;
     private TextField _minText;
     private TextField _maxText;
-    private File _file;
+    private Processor _processor;
     private Pane _uploadPane;
-    private Classroom _classroom;
-    final String IDLE_BUTTON_STYLE = "-fx-border-color : black; -fx-border-radius : 5";
-    final String HOVERED_BUTTON_STYLE = "-fx-border-color : #005eff; -fx-border-radius : 5";
 
     public Controller(Parent root)
     {
@@ -129,22 +130,19 @@ public class Controller
             return;
         }
 
-        this._file = file;
-        this._classroom = new Classroom();
-        //Processor processor = new Processor(file,this._classroom);
+        this._processor = new Processor( file );
 
-        if (this._classroom.getBegin() != null && this._classroom.getEnd() != null)
-            displayFileDetails();
-        else
-            utils.PopupManager.showAlert("Erreur lors du chargement du fichier !");
+        displayFileDetails();
     }
 
     private void displayFileDetails()
     {
-        this._nameFileLabel.setText("Fichier : " + this._file.getName());
-        this._dateFileLabel.setText("Date : " + this._classroom.getBegin().toLocalDate());
-        this._minFileLabel.setText("Heure Min : " + this._classroom.getMinConnection());
-        this._maxFileLabel.setText("Heure Max : " + this._classroom.getMaxConnection());
+        Classroom classroom = this._processor.getClassroom();
+
+        this._nameFileLabel.setText("Fichier : " + this._processor.getFileName());
+        this._dateFileLabel.setText("Date : " + classroom.getDate().toString());
+        this._minFileLabel.setText("Heure Min : " + classroom.getMinConnection().toString());
+        this._maxFileLabel.setText("Heure Max : " + classroom.getMaxConnection().toString());
 
         this._uploadPane.setDisable(true);
         this._loadingLabel.setVisible(false);

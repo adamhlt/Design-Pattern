@@ -10,16 +10,19 @@ public class Student implements Comparable<Student> {
 
     private final String _name;
     private final String _id;
-
     private final LinkedList<LocalDateTime> _eventList;
+
+    public String getId() { return _id; }
+
+    public String getName() {
+        return this._name;
+    }
 
     public Student( String id , String name ) {
         this._name = name;
         this._id = id;
         this._eventList = new LinkedList<>();
     }
-
-    public String getId() { return _id; }
 
     public void addPeriod(LocalDateTime dateTime) {
         this._eventList.add(dateTime);
@@ -44,8 +47,12 @@ public class Student implements Comparable<Student> {
         return _eventList.size()%2==0;
     }
 
-    public String getName() {
-        return this._name;
+    public LocalDateTime getFirstEvent(){
+        return ( _eventList.size() != 0 )?_eventList.getFirst():null;
+    }
+
+    public LocalDateTime getLastEvent(){
+        return ( _eventList.size() != 0 )?_eventList.getLast():null;
     }
 
     @Override

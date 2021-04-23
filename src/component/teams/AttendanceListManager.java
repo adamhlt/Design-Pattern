@@ -1,13 +1,11 @@
 package component.teams;
 
 import model.Classroom;
-import model.Student;
 import utils.DateTimeConverter;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -59,7 +57,7 @@ public class AttendanceListManager {
             if ( infos.length == 3 ) {
                 String identite = infos[0];
                 LocalDateTime instant = DateTimeConverter.getLocalDateTimeFromString( infos[2] );
-                classroom.addInfo( identite , instant );
+                classroom.addStudentInfo( identite , instant );
             }
         }
         return classroom;

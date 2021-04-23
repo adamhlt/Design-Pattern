@@ -6,12 +6,20 @@ import model.Classroom;
 
 public class Processor
 {
-    private String _fileName;
-    private Classroom _classroom;
+    private final String _fileName;
+    private final Classroom _classroom;
 
     public Processor(File file){
         this._fileName = file.getName();
         this._classroom = AttendanceListManager.GenerateClassroom(file);
+    }
+
+    public Classroom getClassroom(){
+        return _classroom;
+    }
+
+    public String getFileName(){
+        return _fileName;
     }
 }
 

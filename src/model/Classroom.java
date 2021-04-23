@@ -16,14 +16,8 @@ public class Classroom
     private final ArrayList<Student> _students;
 
     public Classroom() { this._students = new ArrayList<>(); }
-    public Classroom(String name,String begin,String end){
-        this._name = name;
-        this._begin = DateTimeConverter.getLocalDateTimeFromString( begin );
-        this._end = DateTimeConverter.getLocalDateTimeFromString( end );
-        this._students = new ArrayList<>();
-    }
 
-    public void addInfo(String identite,LocalDateTime instant){
+    public void addStudentInfo( String identite, LocalDateTime instant){
         String id = StudentIDServer.getId( identite );
         for( Student student : _students )
             if( student.getId().equals( id ) ){
@@ -57,11 +51,30 @@ public class Classroom
         return _students;
     }
 
+    public LocalDate getDate() {
+        assert _students.size() != 0;
+        return _students.get( 0 ).getFirstEvent().toLocalDate();
+    }
+
     public LocalTime getMinConnection(){
-        return LocalTime.of( 0,0 );
+        LocalDateTime min = null;
+        for( Student student : _students ){
+            LocalDateTime instant =  student.getFirstEvent();
+            if( min == null || instant.isBefore( min ) )
+                min = instant;
+        }
+        assert min != null;
+        return min.toLocalTime();
     }
 
     public LocalTime getMaxConnection(){
-        return LocalTime.of( 0,0 );
+        LocalDateTime max = null;
+        for( Student student : _students ){
+            LocalDateTime instant =  student.getLastEvent();
+            if( max == null || instant.isAfter( max ) )
+                max = instant;
+        }
+        assert max != null;
+        return max.toLocalTime();
     }
 }
