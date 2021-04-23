@@ -8,7 +8,6 @@
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
@@ -48,7 +47,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField id="libelleText" prefHeight="25.0" prefWidth="320.0">
+                  <TextField id="libelleText" disable="true" prefHeight="25.0" prefWidth="320.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -68,7 +67,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField id="startText" prefHeight="25.0" prefWidth="260.0">
+                  <TextField id="minText" disable="true" prefHeight="25.0" prefWidth="260.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -85,7 +84,7 @@
                         <Insets top="3.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField id="endText" prefHeight="25.0" prefWidth="299.0">
+                  <TextField id="maxText" disable="true" prefHeight="25.0" prefWidth="299.0">
                      <HBox.margin>
                         <Insets left="20.0" />
                      </HBox.margin>
@@ -95,46 +94,43 @@
          </children>
       </VBox>
       <Separator layoutX="66.0" layoutY="405.0" prefHeight="2.0" prefWidth="401.0" />
-      <Label layoutX="102.0" layoutY="429.0" text="Trier la sortie :">
+      <Label layoutX="43.0" layoutY="438.0" text="Trier la sortie :">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="306.0" layoutY="429.0" text="Générer, en sortie :">
+      <Label layoutX="370.0" layoutY="438.0" text="Générer, en sortie :">
          <font>
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
-      <RadioButton id="idRadio" layoutX="105.0" layoutY="462.0" mnemonicParsing="false" selected="true" text="par ID">
-         <font>
-            <Font name="Open Sans Regular" size="12.0" />
-         </font>
-         <toggleGroup>
-            <ToggleGroup fx:id="sort" />
-         </toggleGroup>
-      </RadioButton>
-      <RadioButton id="nameRadio" layoutX="105.0" layoutY="490.0" mnemonicParsing="false" text="par Nom" toggleGroup="$sort">
+      <RadioButton id="idRadio" layoutX="49.0" layoutY="463.0" mnemonicParsing="false" text="par ID">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </RadioButton>
-      <CheckBox id="nameCheck" layoutX="333.0" layoutY="454.0" mnemonicParsing="false" text="sans Nom">
+      <RadioButton id="nameRadio" layoutX="49.0" layoutY="491.0" mnemonicParsing="false" text="par Nom">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
+      <CheckBox id="nameCheck" layoutX="397.0" layoutY="463.0" mnemonicParsing="false" text="sans Nom">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox id="idCheck" layoutX="333.0" layoutY="482.0" mnemonicParsing="false" text="sans ID">
+      <CheckBox id="idCheck" layoutX="397.0" layoutY="491.0" mnemonicParsing="false" text="sans ID">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
-      <CheckBox id="planningCheck" layoutX="333.0" layoutY="511.0" mnemonicParsing="false" text="sans Planning">
+      <CheckBox id="planningCheck" layoutX="397.0" layoutY="520.0" mnemonicParsing="false" text="sans Planning">
          <font>
             <Font name="Open Sans Regular" size="12.0" />
          </font>
       </CheckBox>
       <Separator layoutX="67.0" layoutY="566.0" prefHeight="2.0" prefWidth="401.0" />
-      <Button id="generateButton" layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
+      <Button id="generateButton" disable="true" layoutX="210.0" layoutY="585.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="116.0" text="Générer" />
       <Label id="loadingLabel" layoutX="172.0" layoutY="199.0" text="Veuillez charger un fichier !">
          <font>
             <Font name="Open Sans Regular" size="15.0" />
@@ -160,5 +156,30 @@
             <Font name="Open Sans Regular" size="14.0" />
          </font>
       </Label>
+      <Label layoutX="204.0" layoutY="438.0" text="Type de sortie :">
+         <font>
+            <Font name="Open Sans Regular" size="14.0" />
+         </font>
+      </Label>
+      <RadioButton id="htmlRadio" layoutX="224.0" layoutY="491.0" mnemonicParsing="false" text="HTML">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
+      <RadioButton id="csvRadio" layoutX="224.0" layoutY="520.0" mnemonicParsing="false" text="CSV">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
+      <RadioButton id="debugRadio" layoutX="224.0" layoutY="463.0" mnemonicParsing="false" text="Debug">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
+      <RadioButton id="timeRadio" layoutX="49.0" layoutY="518.0" mnemonicParsing="false" text="par Durée">
+         <font>
+            <Font name="Open Sans Regular" size="12.0" />
+         </font>
+      </RadioButton>
    </children>
 </Pane>
