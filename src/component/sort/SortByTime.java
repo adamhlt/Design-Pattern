@@ -5,8 +5,12 @@ import model.Student;
 
 import java.util.Comparator;
 
-public class SortByTime implements Sort
-{
+/**
+ * Sort students by their time being connected
+ *
+ * @version 1.0
+ */
+public class SortByTime implements Sort {
     @Override
-    public void sortStudent(Classroom classroom) { classroom.getStudents().sort(Comparator.comparing(Student::getTotalAttendanceDuration)); }
+    public void sortStudent( Classroom classroom ) { classroom.getStudents().sort( Comparator.comparing( Student::getTotalAttendanceDuration ) ); }
 }

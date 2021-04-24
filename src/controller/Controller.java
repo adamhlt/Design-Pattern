@@ -4,7 +4,7 @@ import component.output.Csv;
 import component.output.Debug;
 import component.output.Html;
 import component.sort.SortByID;
-import component.sort.SortByName;
+import component.sort.SortByIdentity;
 import component.sort.SortByTime;
 import component.teams.Processor;
 
@@ -159,7 +159,7 @@ public class Controller
             this._processor.setSorter(new SortByID());
 
         if (this._nameRadio.isSelected())
-            this._processor.setSorter(new SortByName());
+            this._processor.setSorter(new SortByIdentity());
 
         if (this._timeRadio.isSelected())
             this._processor.setSorter(new SortByTime());
@@ -186,7 +186,7 @@ public class Controller
     {
         Classroom classroom = this._processor.getClassroom();
 
-        this._nameFileLabel.setText("Fichier : " + classroom.getFilename());
+        this._nameFileLabel.setText("Fichier : " + classroom.getSourceName());
         this._dateFileLabel.setText("Date : " + classroom.getDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
         this._minFileLabel.setText("Heure Min : " + classroom.getMinConnection().toString());
         this._maxFileLabel.setText("Heure Max : " + classroom.getMaxConnection().toString());

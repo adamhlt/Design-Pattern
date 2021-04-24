@@ -9,6 +9,11 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * Generate a html doc from classroom datas
+ *
+ * @version 1.0
+ */
 public class Html implements Generator {
 
     private static final String HTML_DOC =
@@ -164,37 +169,37 @@ public class Html implements Generator {
             String begin = classroom.getBegin().toLocalTime().toString();
             String end = classroom.getEnd().toLocalTime().toString();
             String name = classroom.getName();
-            String fileName = classroom.getFilename();
+            String fileName = classroom.getSourceName();
             String studentAmount = Integer.toString( classroom.getStudents().size() );
             StringBuilder data = new StringBuilder();
 
-            long classroomDuration = Duration.between( classroom.getBegin() , classroom.getEnd() ).toSeconds();
-
-            for ( Student student : classroom.getStudents() ) {
+            long classroomDuration = classroom.getCourseDuration().toSeconds();
+            for( Student student : classroom.getStudents() ) {
                 String id = student.getId();
-                String identity = student.getName();
+                String identity = student.getIdentity();
                 String totalAttendance = Long.toString( student.getTotalAttendanceDuration() );
-                String percentAttendance = Integer.toString( student.getAttendancePercent( classroom.getDureeCours() )) + "%";
+                String percentAttendance =
+                        Integer.toString( student.getAttendancePercent( classroom.getCourseDuration() ) ) + "%";
                 StringBuilder timeBar = new StringBuilder();
 
                 LocalDateTime blockBegin = null;
                 LocalDateTime lastEnd = classroom.getBegin();
                 boolean isOpen = false;
-                for ( LocalDateTime event : student.getEventList() ) {
+                for( LocalDateTime event : student.getEventList() ) {
                     if( !isOpen ) {
                         blockBegin = event;
-                        if( !lastEnd.equals(blockBegin) ){
-                            timeBar.append(generateTimeBarDiv(lastEnd,blockBegin,classroomDuration,false));
+                        if( !lastEnd.equals( blockBegin ) ) {
+                            timeBar.append( generateTimeBarDiv( lastEnd, blockBegin, classroomDuration, false ) );
                         }
                     } else {
-                        timeBar.append(generateTimeBarDiv(blockBegin,event,classroomDuration,true));
+                        timeBar.append( generateTimeBarDiv( blockBegin, event, classroomDuration, true ) );
                         lastEnd = event;
                     }
                     isOpen = !isOpen;
                 }
 
-                if( !lastEnd.equals(classroom.getEnd()) ){
-                    timeBar.append(generateTimeBarDiv(lastEnd,classroom.getEnd(),classroomDuration,false));
+                if( !lastEnd.equals( classroom.getEnd() ) ) {
+                    timeBar.append( generateTimeBarDiv( lastEnd, classroom.getEnd(), classroomDuration, false ) );
                 }
 
                 String studentData = String.format(
@@ -204,7 +209,7 @@ public class Html implements Generator {
                         timeBar,
                         totalAttendance,
                         percentAttendance
-                        );
+                );
 
                 data.append( studentData );
             }
@@ -223,20 +228,20 @@ public class Html implements Generator {
             html.append( fullPage );
             html.flush();
             html.close();
-        } catch ( Exception e ) {
+        } catch( Exception e ) {
             PopupManager.showAlert( "Erreur lors de la création du fichier !" );
         }
     }
 
-    private String generateTimeBarDiv(LocalDateTime begin,LocalDateTime end,long total, boolean isConnected) {
-        long duration = Duration.between( begin , end ).toSeconds();
-        double percent = (double)duration * 100 / (double)total;
+    private String generateTimeBarDiv( LocalDateTime begin, LocalDateTime end, long total, boolean isConnected ) {
+        long duration = Duration.between( begin, end ).toSeconds();
+        double percent = (double) duration * 100 / (double) total;
         return String.format(
                 TIME_BAR_ITEM,
-                (isConnected)?"green":"white",
+                ( isConnected ) ? "green" : "white",
                 percent + "%",
-                (isConnected)?
-                        "connecté(e) de " + begin.toLocalTime().toString() + " à " + end.toLocalTime().toString():
+                ( isConnected ) ?
+                        "connecté(e) de " + begin.toLocalTime().toString() + " à " + end.toLocalTime().toString() :
                         "déconnecté(e) de " + begin.toLocalTime().toString() + " à " + end.toLocalTime().toString()
         );
     }
