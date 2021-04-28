@@ -13,9 +13,22 @@ public class PopupManager {
      *
      * @param message A string to display
      */
-    public static void showAlert( String message ) {
+    public static void showError( String message ) {
         Alert alert = new Alert( Alert.AlertType.ERROR );
         alert.setHeaderText( message );
+        alert.setTitle( "Erreur" );
+        alert.showAndWait();
+    }
+
+    /**
+     * Create a success popup window containing a specific message
+     *
+     * @param message A string to display
+     */
+    public static void showSuccess( String message ) {
+        Alert alert = new Alert( Alert.AlertType.NONE );
+        alert.setHeaderText( message );
+        alert.setTitle( "Succès" );
         alert.showAndWait();
     }
 }

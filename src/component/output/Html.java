@@ -1,18 +1,20 @@
 package component.output;
 
 import model.Classroom;
+import model.Setting;
 import model.Student;
 import utils.PopupManager;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.time.Duration;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 /**
  * Generate a html doc from classroom datas
  *
- * @version 1.0
+ * @version 1.1
  */
 public class Html implements Generator {
 
@@ -161,45 +163,49 @@ public class Html implements Generator {
                     """;
 
     @Override
-    public void Generate( Classroom classroom ) {
+    public void Generate( Classroom classroom, Setting setting ) {
         try {
-            FileWriter html = new FileWriter( classroom.getName() + ".html" );
+            File file = new File(classroom.getName() + ".html");
+            FileWriter html = new FileWriter( file );
 
-            String date = classroom.getDate().format( DateTimeFormatter.ofPattern( "dd/MM/yyyy" ) );
-            String begin = classroom.getBegin().toLocalTime().toString();
-            String end = classroom.getEnd().toLocalTime().toString();
-            String name = classroom.getName();
-            String fileName = classroom.getSourceName();
+            String date          = classroom.getDate().format( DateTimeFormatter.ofPattern( "dd/MM/yyyy" ) );
+            String begin         = classroom.getBegin().toString();
+            String end           = classroom.getEnd().toString();
+            String name          = classroom.getName();
+            String fileName      = classroom.getSourceName();
             String studentAmount = Integer.toString( classroom.getStudents().size() );
-            StringBuilder data = new StringBuilder();
+            StringBuilder data   = new StringBuilder();
 
             long classroomDuration = classroom.getCourseDuration().toSeconds();
             for( Student student : classroom.getStudents() ) {
-                String id = student.getId();
-                String identity = student.getIdentity();
-                String totalAttendance = Long.toString( student.getTotalAttendanceDuration() );
-                String percentAttendance =
-                        Integer.toString( student.getAttendancePercent( classroom.getCourseDuration() ) ) + "%";
-                StringBuilder timeBar = new StringBuilder();
 
-                LocalDateTime blockBegin = null;
-                LocalDateTime lastEnd = classroom.getBegin();
-                boolean isOpen = false;
-                for( LocalDateTime event : student.getEventList() ) {
-                    if( !isOpen ) {
-                        blockBegin = event;
-                        if( !lastEnd.equals( blockBegin ) ) {
-                            timeBar.append( generateTimeBarDiv( lastEnd, blockBegin, classroomDuration, false ) );
+                String id                = ( setting.isWithoutID() ) ? "" : student.getId();
+                String identity          = ( setting.isWithoutIdentity() ) ? "" : student.getIdentity();
+                String totalAttendance   = Long.toString( student.getTotalAttendanceDuration() );
+                String percentAttendance = student.getAttendancePercent( classroom.getCourseDuration() ) + "%";
+                StringBuilder timeBar    = new StringBuilder();
+
+                if( !setting.isWithoutPlanning() ) {
+                    LocalTime blockBegin = null;
+                    LocalTime lastEnd = classroom.getBegin();
+
+                    boolean isOpen = false;
+                    for( LocalTime event : student.getEventList() ) {
+                        if( !isOpen ) {
+                            blockBegin = event;
+                            if( !lastEnd.equals( blockBegin ) ) {
+                                timeBar.append( generateTimeBarDiv( lastEnd, blockBegin, classroomDuration, false ) );
+                            }
+                        } else {
+                            timeBar.append( generateTimeBarDiv( blockBegin, event, classroomDuration, true ) );
+                            lastEnd = event;
                         }
-                    } else {
-                        timeBar.append( generateTimeBarDiv( blockBegin, event, classroomDuration, true ) );
-                        lastEnd = event;
+                        isOpen = !isOpen;
                     }
-                    isOpen = !isOpen;
-                }
 
-                if( !lastEnd.equals( classroom.getEnd() ) ) {
-                    timeBar.append( generateTimeBarDiv( lastEnd, classroom.getEnd(), classroomDuration, false ) );
+                    if( !lastEnd.equals( classroom.getEnd() ) ) {
+                        timeBar.append( generateTimeBarDiv( lastEnd, classroom.getEnd(), classroomDuration, false ) );
+                    }
                 }
 
                 String studentData = String.format(
@@ -228,12 +234,14 @@ public class Html implements Generator {
             html.append( fullPage );
             html.flush();
             html.close();
+
+            PopupManager.showSuccess( "Le fichier à été crée :\n" + file.getAbsolutePath() );
         } catch( Exception e ) {
-            PopupManager.showAlert( "Erreur lors de la création du fichier !" );
+            PopupManager.showError( "Erreur lors de la création du fichier !" );
         }
     }
 
-    private String generateTimeBarDiv( LocalDateTime begin, LocalDateTime end, long total, boolean isConnected ) {
+    private String generateTimeBarDiv( LocalTime begin, LocalTime end, long total, boolean isConnected ) {
         long duration = Duration.between( begin, end ).toSeconds();
         double percent = (double) duration * 100 / (double) total;
         return String.format(
@@ -241,8 +249,8 @@ public class Html implements Generator {
                 ( isConnected ) ? "green" : "white",
                 percent + "%",
                 ( isConnected ) ?
-                        "connecté(e) de " + begin.toLocalTime().toString() + " à " + end.toLocalTime().toString() :
-                        "déconnecté(e) de " + begin.toLocalTime().toString() + " à " + end.toLocalTime().toString()
+                        "connecté(e) de " + begin.toString() + " à " + end.toString() :
+                        "déconnecté(e) de " + begin.toString() + " à " + end.toString()
         );
     }
 }

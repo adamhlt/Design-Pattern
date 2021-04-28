@@ -1,11 +1,12 @@
 package component.teams;
 
 import java.io.File;
+import java.time.LocalDateTime;
 
 import component.output.Generator;
-import component.sort.Sort;
+import component.sort.Sorter;
 import model.Classroom;
-import utils.DateTimeConverter;
+import model.Setting;
 
 /**
  * Class to process file and setting from UI
@@ -13,9 +14,20 @@ import utils.DateTimeConverter;
  * @version 1.0
  */
 public class Processor {
+    /**
+     * Classroom to be processed
+     */
     private final Classroom _classroom;
+
+    /**
+     * Generator that will be use to generate the output result
+     */
     private Generator _generator;
-    private Sort _sorter;
+
+    /**
+     * Sorter that will be use to sort the output result
+     */
+    private Sorter _sorter;
 
     /**
      * Create a Processor from a csv file
@@ -28,25 +40,44 @@ public class Processor {
     }
 
     /**
-     * Process all data and setting to generate specific output using the provided generator
+     * Process all data and setting to generate specific output using the provided generator and setting
      *
-     * @param courseName A String representing the course name
+     * @param courseName A string representing the course name
+     * @param setting    A Setting object to store some generating setting
      * @param begin      A string of the begin of the course using pattern "dd/MM/yyyy à HH:mm:ss"
-     * @param End        A string of the end of the course using pattern "dd/MM/yyyy à HH:mm:ss"
+     * @param end        A string of the end of the course using pattern "dd/MM/yyyy à HH:mm:ss"
+     * @see Setting
      */
-    public void Process( String courseName, String begin, String End ) {
+    public void Process( String courseName, Setting setting, LocalDateTime begin, LocalDateTime end ) {
         this._classroom.setName( courseName );
-        this._classroom.setBegin( DateTimeConverter.getLocalDateTimeFromString( begin ) );
-        this._classroom.setEnd( DateTimeConverter.getLocalDateTimeFromString( End ) );
+        this._classroom.setBegin( begin.toLocalTime() );
+        this._classroom.setEnd( end.toLocalTime() );
         this._sorter.sortStudent( this._classroom );
-        this._generator.Generate( this._classroom );
+        this._generator.Generate( this._classroom, setting );
     }
 
+    /**
+     * Get classroom
+     *
+     * @return Classroom
+     */
     public Classroom getClassroom() {
         return _classroom;
     }
 
+    /**
+     * Set generator
+     *
+     * @param generator that will be use to generate the output result
+     * @see Generator
+     */
     public void setGenerator( Generator generator ) { this._generator = generator; }
 
-    public void setSorter( Sort sorter ) { this._sorter = sorter; }
+    /**
+     * Set sorter
+     *
+     * @param sorter that will be use to sort the output result
+     * @see Sorter
+     */
+    public void setSorter( Sorter sorter ) { this._sorter = sorter; }
 }

@@ -1,12 +1,13 @@
 package component.output;
 
 import model.Classroom;
+import model.Setting;
 
 /**
  * Interface to store generation method
  * Using Strategy Pattern from design patern
  *
- * @version 1.0
+ * @version 1.1
  */
 public interface Generator {
     /**
@@ -14,5 +15,5 @@ public interface Generator {
      *
      * @param classroom A classroom already processed
      */
-    void Generate( Classroom classroom );
+    void Generate( Classroom classroom , Setting setting );
 }

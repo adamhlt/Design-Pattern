@@ -11,8 +11,8 @@ import java.time.format.DateTimeFormatter;
  * @version 1.0
  */
 public class DateTimeConverter {
-    private static final String pattern = "dd/MM/yyyy à HH:mm:ss";
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern( pattern );
+    private static final String PATTERN = "dd/MM/yyyy à HH:mm:ss";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern( PATTERN );
 
     /**
      * Convert String to LocalDateTime using this pattern : "dd/MM/yyyy à HH:mm:ss"
@@ -21,6 +21,6 @@ public class DateTimeConverter {
      * @return A localDateTime from the strign
      */
     public static LocalDateTime getLocalDateTimeFromString( String dateTime ) {
-        return new LocalDateTimeStringConverter( formatter, formatter ).fromString( dateTime );
+        return new LocalDateTimeStringConverter( FORMATTER, FORMATTER ).fromString( dateTime );
     }
 }
