@@ -35,12 +35,12 @@ Allow user to generate result like this :
 
 ## How to use
 
-- First the software will need a correct csv file when it's done it will show up some information la like :
+- First the software will need a correct csv file when it's done it will show up some information like :
     - First connection
     - Last disconnection
     - Date of the course
 - Then the user had to give name, begin time and end time to the classroom
-- To finish user have to choose between multiple setting and then press generate
+- To finish user had to choose between multiple settings and then press generate
 
 <p align="center">
   <img width="460" src="https://i.imgur.com/yugsCrV.png" alt="">
